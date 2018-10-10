@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Javascript Examples</title>
+</head>
+
+<body>
+    <svg width="500" height="500">
+
+        <!-- rect -->
+        <!-- <rect width="100" height="100" fill="#F44336" stroke="yellow" stroke-width="10px" x="25" y="25"></rect> -->
+
+
+        <!-- circles, lines, ellipses -->
+        <!-- <circle r="100" cx="105" cy="105" fill="purple" stroke="red" stroke-width="10px"></circle> 
+        <ellipse rx="200" ry="100" cx="205" cy="105" fill="yellow" stroke="black" stroke-width="10px"></ellipse>
+        <line x1="25" y1="25" x2="200" y2="200" stroke="red" stroke-width="10px"></line> -->
+
+
+        <!-- polygons and polylines -->
+        <!-- <polygon points="220,10 123,234 300,210 170,250" fill="#607D8B" stroke="black" stroke-width="10px"></polygon> -->
+        <!-- <polyline points="220,10 123,234 300,210 170,250" stroke="#000" fill="none" stroke-width="10px"></polyline> -->
+
+
+        <!-- path -->
+        <!-- <path d="
+        M 100,100 
+        L 300,150 
+        L 300,300
+        Q 200,400 100,200" fill="none" stroke="#000"
+            stroke-width="10px"></path> -->
+
+
+        <!-- text and links -->
+        <!-- <a xlink:href="https://google.com" target="_blank">
+            <text x="50" y="50" fill="red" font-size="30px">
+                Hello World!
+                <tspan x="200" y="200">2nd Line</tspan>
+            </text>
+        </a> -->
+
+
+        <!-- groups and definitions -->
+        <!-- <defs>
+            <g id="rectangle">
+                <rect width="50" height="50"></rect>
+                <rect width="50" height="50" x="50" fill="blue"></rect>
+            </g>
+
+        </defs>
+        <use xlink:href="#rectangle"></use> -->
+
+
+        <!-- text path -->
+        <!-- <defs> -->
+        <!-- straight line -->
+        <!-- <path id="custom_text_path" d="M0,0  L300,300"> -->
+        <!-- curved line  Q=quadratic point. first point is the magnet point-->
+        <!-- <path id="custom_text_path" d="M0,0  Q0,100 150,100">
+            </path>
+        </defs> -->
+
+        <!-- straight path -->
+        <!-- <text x="100" y="100" stroke="#000" font-size="30"> -->
+        <!-- <text x="10" y="100" stroke="#000" font-size="30">
+            <textpath xlink:href="#custom_text_path">Hello World!</textpath>
+        </text> -->
+
+
+        <!-- clip paths -->
+        <!-- clip paths will only show data that is with in the path.  Only the clip path rect and circle will show on the larger circle. Everything else will be blank. -->
+        <!-- <defs>
+            <clipPath id="custom_clip_path">
+                <rect x="250" y="250" width="200" height="200"></rect>
+                <circle r="50" cx="200" cy="200"></circle>
+            </clipPath>
+        </defs>
+        <circle cx="250" cy="250" r="200" fill="blue" clip-path="url(#custom_clip_path)"></circle> -->
+    </svg>
+</body>
+
+</html>
