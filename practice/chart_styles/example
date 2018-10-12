@@ -1,0 +1,11 @@
+
+//nice() rounds to nearest values
+//rangeRound() rounds to nearest whole number
+//clamp() set to true will round to closest scale number
+/*.scaleSqrt()- Scales your data using square root.
+.scalePow()- Scales your data use the power of another number
+.scaleLog()- scales your data using logarithmic
+.scaleQuantize()- scales data similar to scaleLinear(), but uses discrete values.
+.scaleQuantile() - similar to scaleQuantize() function except the domain gets effected.
+.scaleOrdinal() - Used for data that isn't necessarily numbers like colors or categories.
+.scaleTime() - Scales dates and time.*/

@@ -13,7 +13,6 @@ let chart_width = 800;
 let chart_height = 400;
 let padding = 50;
 
-//create svg element
 let svg = d3
   .select('#chart')
   .append('svg')
@@ -31,6 +30,7 @@ let x_scale = d3
   ])
   .range([padding, chart_width - padding * 2]);
 
+//line scale
 let y_scale = d3
   .scaleLinear()
   .domain([
@@ -41,17 +41,40 @@ let y_scale = d3
   ])
   .range([chart_height - padding, padding]);
 
-let r_scale = d3
-  .scaleLinear()
+//line scale with sqrt
+let a_scale = d3
+  .scaleSqrt()
   .domain([
     0,
     d3.max(data, d => {
       return d[1];
     })
   ])
-  .range([5, 30]);
+  .range([0, 25]);
 
-//create circles
+//create  x axis
+let x_axis = d3
+  .axisBottom(x_scale)
+  // .ticks(6);
+  .tickValues([0, 150, 250, 600, 700]);
+//call is used to bring in the x_axis to the group.
+svg
+  .append('g')
+  .attr('class', 'x-axis')
+  .attr('transform', 'translate(0,' + (chart_height - padding) + ')')
+  .call(x_axis);
+
+//create y axis
+let y_axis = d3.axisLeft(y_scale).ticks(5);
+// .tickFormat(d => {
+//   return d + '%';
+// });
+svg
+  .append('g')
+  .attr('class', 'y-axis')
+  .attr('transform', 'translate(' + padding + ',0)')
+  .call(y_axis);
+
 svg
   .selectAll('circle')
   .data(data)
@@ -65,12 +88,13 @@ svg
     return y_scale(d[1]);
   })
   .attr('r', d => {
-    return d[1] / 10;
+    return a_scale(d[1]);
   })
   .attr('fill', '#D1AB0E');
 
 //create label
 svg
+  .append('g') //add group to label because axis provides a text element and erases the labels.
   .selectAll('text')
   .data(data)
   .enter()
