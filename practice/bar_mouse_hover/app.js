@@ -3,6 +3,7 @@ var data = [6, 20, 21, 14, 2, 30, 7, 16, 25, 5, 11, 28, 10, 26, 9];
 // Create SVG Element
 var chart_width = 800;
 var chart_height = 400;
+let sort_flag = false;
 var svg = d3
   .select('#chart')
   .append('svg')
@@ -37,15 +38,39 @@ svg
     return y_scale(d);
   })
   .attr('fill', '#7ED26D')
-  .on('mouseover', function() {
-    d3.select(this)
+  //   .on('mouseover', function() {
+  //     d3.select(this)
+  //       .transition()
+  //       .attr('fill', '#0C9CDF');
+  //   })
+  //   .on('mouseout', function() {
+  //     d3.select(this)
+  //       .transition('change_color_back')
+  //       .attr('fill', '#7ED26D');
+  //   })
+  .on('click', function() {
+    svg
+      .selectAll('rect')
+      .sort(function(a, b) {
+        return sort_flag ? d3.descending(a, b) : d3.ascending(a, b);
+      })
+      .transition('sort')
+      .duration(1000)
+      .attr('x', function(d, i) {
+        return x_scale(i);
+      });
+
+    svg
+      .selectAll('text')
+      .sort(function(a, b) {
+        return sort_flag ? d3.descending(a, b) : d3.ascending(a, b);
+      })
       .transition()
-      .attr('fill', '#0C9CDF');
-  })
-  .on('mouseout', function() {
-    d3.select(this)
-      .transition()
-      .attr('fill', '#7ED26D');
+      .duration(1000)
+      .attr('x', function(d, i) {
+        return x_scale(i) + x_scale.bandwidth() / 2;
+      });
+    sort_flag = !sort_flag;
   });
 
 // Create Labels
