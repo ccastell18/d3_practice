@@ -42,16 +42,25 @@ let y_scale = d3
   .range([chart_height - padding, padding]);
 
 //line scale with sqrt
-let a_scale = d3
-  .scaleSqrt()
-  .domain([
-    0,
-    d3.max(data, d => {
-      return d[1];
-    })
-  ])
-  .range([0, 25]);
+// let a_scale = d3
+//   .scaleSqrt()
+//   .domain([
+//     0,
+//     d3.max(data, d => {
+//       return d[1];
+//     })
+//   ])
+//   .range([0, 25]);
 
+//clip Paths
+svg
+  .append('clipPath')
+  .attr('id', 'plot-area-clip-path')
+  .append('rect')
+  .attr('x', padding)
+  .attr('y', padding)
+  .attr('width', chart_width - padding * 3)
+  .attr('height', chart_height - padding * 2);
 //create  x axis
 let x_axis = d3
   .axisBottom(x_scale)
@@ -76,6 +85,10 @@ svg
   .call(y_axis);
 
 svg
+  //appending group for the clip path to stop the circles from overlapping.
+  .append('g')
+  .attr('id', 'plot-area')
+  .attr('clip-path', 'url(#plot-area-clip-path')
   .selectAll('circle')
   .data(data)
   .enter()
@@ -87,24 +100,78 @@ svg
   .attr('cy', d => {
     return y_scale(d[1]);
   })
-  .attr('r', d => {
-    return a_scale(d[1]);
-  })
+  // .attr('r', d => {
+  //   return a_scale(d[1]);
+  .attr('r', 15)
   .attr('fill', '#D1AB0E');
 
 //create label
-svg
-  .append('g') //add group to label because axis provides a text element and erases the labels.
-  .selectAll('text')
-  .data(data)
-  .enter()
-  .append('text')
-  .text(d => {
-    return d.join(' , ');
-  })
-  .attr('x', d => {
-    return x_scale(d[0]);
-  })
-  .attr('y', d => {
-    return y_scale(d[1]);
-  });
+// svg
+//   .append('g') //add group to label because axis provides a text element and erases the labels.
+//   .selectAll('text')
+//   .data(data)
+//   .enter()
+//   .append('text')
+//   .text(d => {
+//     return d.join(' , ');
+//   })
+//   .attr('x', d => {
+//     return x_scale(d[0]);
+//   })
+//   .attr('y', d => {
+//     return y_scale(d[1]);
+//   });
+
+d3.select('button').on('click', () => {
+  //create random data
+  data = [];
+  let max_num = Math.random() * 1000;
+  for (let i = 0; i < 8; i++) {
+    let new_x = Math.floor(Math.random() * max_num);
+    let new_y = Math.floor(Math.random() * max_num);
+    data.push([new_x, new_y]);
+  }
+  //update scales
+  x_scale.domain([
+    0,
+    d3.max(data, d => {
+      return d[0];
+    })
+  ]);
+  y_scale.domain([
+    0,
+    d3.max(data, d => {
+      return d[1];
+    })
+  ]);
+  svg
+    .selectAll('circle')
+    .data(data)
+    .transition()
+    .duration(1000)
+    .on('start', () => {
+      console.log('transition started!');
+    })
+    .attr('cx', d => {
+      //add the x scale created above
+      return x_scale(d[0]);
+    })
+    .attr('cy', d => {
+      return y_scale(d[1]);
+    })
+    .on('end', () => {
+      console.log('transition ended');
+    });
+  //update axis
+  svg
+    .select('.x-axis')
+    .transition()
+    .duration(1000)
+    .call(x_axis);
+
+  svg
+    .select('.y-axis')
+    .transition()
+    .duration(1000)
+    .call(y_axis);
+});
